@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 🔴 REQUIRED for mobile responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>UPI Fraud Detection</title>
+
+    <!-- Optional but professional -->
+    <meta name="description" content="AI-powered UPI Fraud Detection using Machine Learning">
+    <meta name="theme-color" content="#020617">
+
+
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+/* ================= BACKGROUND ================= */
+body {
+    margin: 0;
+    height: 100vh;
+    background:
+        radial-gradient(circle at top, rgba(99,102,241,0.25), transparent 45%),
+        radial-gradient(circle at bottom, rgba(139,92,246,0.25), transparent 45%),
+        #020617;
+}
+
+/* ================= PAGE ================= */
+.app {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 40px 16px;
+}
+
+/* ================= CARD ================= */
+.card {
+    width: 100%;
+    max-width: 520px;
+    background: #020617;
+    padding: 36px;
+    border-radius: 24px;
+    box-shadow: 0 40px 90px rgba(0,0,0,0.6);
+}
+
+/* ================= HEADER ================= */
+h1 {
+    text-align: center;
+    margin-bottom: 6px;
+    font-size: 28px;
+    color: #94a3b8;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #94a3b8;
+    margin-bottom: 28px;
+}
+
+/* ================= FORM ================= */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* ================= INPUT GROUP ================= */
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+.field label {
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #cbd5f5;
+}
+
+.field small {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+/* CLEAR INPUT BOX */
+input, select {
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid #334155;
+    background: #020617;
+    color: white;
+    font-size: 15px;
+}
+
+input::placeholder {
+    color: #64748b;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99,102,241,0.4);
+}
+
+/* ================= BUTTON ================= */
+button {
+    margin-top: 12px;
+    padding: 15px;
+    border-radius: 16px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+/* ================= RESULT ================= */
+.result-box {
+    margin-top: 28px;
+    padding: 22px;
+    border-radius: 18px;
+    text-align: center;
+}
+
+.safe {
+    background: rgba(30, 138, 102, 0.15);
+    border: 1px solid rgba(27, 199, 142, 0.4);
+    color: #cbd5f5;
+}
+
+.fraud {
+    background: rgba(239,68,68,0.15);
+    border: 1px solid rgba(239,68,68,0.4);
+    color: #cbd5f5;
+}
+
+/* ================= TRANSACTION HISTORY ================= */
+.history {
+    margin-top: 30px;
+    padding: 18px;
+    border-radius: 18px;
+    background: rgba(2,6,23,0.85);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* table spacing */
+.history table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;   /* row gap */
+    font-size: 14px;
+}
+
+/* header */
+.history th {
+    text-align: left;
+    padding: 10px;
+    color: #cbd5f5;
+    font-weight: 600;
+}
+
+/* row container */
+.history tr {
+    background: rgba(255,255,255,0.03);
+}
+
+/* cells */
+.history td {
+    padding: 14px 10px;
+    color: #e5e7eb;
+}
+
+/* rounded row effect */
+.history tr td:first-child {
+    border-radius: 12px 0 0 12px;
+}
+.history tr td:last-child {
+    border-radius: 0 12px 12px 0;
+}
+
+/* hover */
+.history tr:hover {
+    background: rgba(99,102,241,0.08);
+}
+
+/* decision text */
+.decision-ALLOW {
+    color: #22c55e;
+    font-weight: 600;
+}
+
+.decision-BLOCK {
+    color: #ef4444;
+    font-weight: 600;
+}
+
+/* risk emphasis */
+.risk-high {
+    color: #ef4444;
+    font-weight: 600;
+}
+
+.risk-low {
+    color: #22c55e;
+    font-weight: 600;
+}
+
+/* ================= PURE CSS TOGGLE ================= */
+
+/* hide history by default */
+#toggleHistory ~ .history {
+    display: none;
+}
+
+/* show history when checked */
+#toggleHistory:checked ~ .history {
+    display: block;
+}
+
+/* toggle button style */
+.toggle-btn {
+    display: inline-block;
+    margin-top: 26px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+/* hover */
+.toggle-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(99,102,241,0.4);
+}
+
+/* text change when open */
+#toggleHistory:checked + .toggle-btn::after {
+    content: " (Hide)";
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+<div class="card">
+
+<h1>💳 UPI Fraud Detection</h1>
+<p class="subtitle">Enter transaction details below</p>
+
+<form method="POST">
+
+    <div class="field">
+        <label>Transaction Amount</label>
+        <input type="number" name="amount" placeholder="e.g. 5000" required>
+        <small>Amount being transferred</small>
+    </div>
+
+    <div class="field">
+        <label>Old Balance</label>
+        <input type="number" name="oldbalance" placeholder="e.g. 20000" required>
+        <small>Balance before transaction</small>
+    </div>
+
+    <div class="field">
+        <label>New Balance</label>
+        <input type="number" name="newbalance" placeholder="e.g. 15000" required>
+        <small>Balance after transaction</small>
+    </div>
+
+    <div class="field">
+        <label>Transaction Hour (0–23)</label>
+        <input type="number" name="hour" min="0" max="23" placeholder="e.g. 14" required>
+        <small>Hour when transaction happened</small>
+    </div>
+
+    <div class="field">
+        <label>Transaction Type</label>
+        <select name="transaction_type" required>
+            <option value="PAYMENT">PAYMENT</option>
+            <option value="TRANSFER">TRANSFER</option>
+        </select>
+    </div>
+
+    <!-- ✅ NEW: User City -->
+    <div class="field">
+        <label>User City</label>
+        <select name="user_city" required>
+            <option value="Kolkata">Kolkata</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Chennai">Chennai</option>
+        </select>
+        <small>City where user is located</small>
+    </div>
+
+    <!-- ✅ NEW: Merchant City -->
+    <div class="field">
+        <label>Merchant City</label>
+        <select name="merchant_city" required>
+            <option value="Kolkata">Kolkata</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Chennai">Chennai</option>
+        </select>
+        <small>City where merchant is located</small>
+    </div>
+
+    <!-- ✅ NEW: Device Type -->
+    <div class="field">
+        <label>Device Type</label>
+        <select name="device_type" required>
+            <option value="Android">Android</option>
+            <option value="iOS">iOS</option>
+            <option value="Web">Web</option>
+        </select>
+        <small>Device used for the transaction</small>
+    </div>
+
+    <button type="submit">Analyze Transaction</button>
+</form>
+
+
+{% if result %}
+<div class="result-box {% if 'FRAUD' in result %}fraud{% else %}safe{% endif %}">
+    <h2>{{ result }}</h2>
+    <p>Risk Score: <b>{{ probability }}%</b></p>
+    <p>{{ reason }}</p>
+</div>
+{% endif %}
+
+<!-- hidden toggle -->
+<input type="checkbox" id="toggleHistory" hidden>
+
+<!-- toggle button -->
+<label for="toggleHistory" class="toggle-btn">
+    📜 Transaction History
+</label>
+
+
+{% if history %}
+<div class="history">
+
+<table>
+<tr>
+    <th>Time</th>
+    <th>Amount</th>
+    <th>Decision</th>
+    <th>Risk %</th>
+
+</tr>
+{% for h in history %}
+<tr>
+    <td>{{ h.time }}</td>
+    <td>₹ {{ h.amount }}</td>
+    <td class="decision {{ h.decision|lower }}">
+    {{ h.decision }}
+</td>
+<td class="risk {% if h.risk|float >= 70 %}high{% else %}low{% endif %}">
+    {{ h.risk }}%
+</td>
+
+</tr>
+{% endfor %}
+</table>
+</div>
+{% endif %}
+
+</div>
+</div>
+
+
+
+</body>
+</html>

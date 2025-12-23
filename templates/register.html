@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+    <!-- 🔴 REQUIRED for mobile responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Create Account – UPI Fraud Detection</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", system-ui, sans-serif;
+}
+body {
+    margin: 0;
+    height: 100vh;
+    background:
+        radial-gradient(circle at top, rgba(99,102,241,0.25), transparent 45%),
+        radial-gradient(circle at bottom, rgba(139,92,246,0.25), transparent 45%),
+        #020617;
+}
+
+/* ================= PAGE ================= */
+.page {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ================= CARD ================= */
+.card {
+    width: 440px;
+    padding: 38px;
+    border-radius: 24px;
+    background: #020617;
+    box-shadow:
+        0 40px 90px rgba(0,0,0,0.6),
+        inset 0 0 0 1px rgba(255,255,255,0.06);
+    color: #e5e7eb;
+    animation: slideFade 0.8s ease forwards;
+}
+
+/* ================= ANIMATION ================= */
+@keyframes slideFade {
+    from {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ================= HEADER ================= */
+.card h2 {
+    text-align: center;
+    margin-bottom: 6px;
+    font-size: 26px;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #94a3b8;
+    margin-bottom: 28px;
+}
+
+/* ================= FORM ================= */
+.card input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 16px;
+    border-radius: 14px;
+    border: 1px solid #020617;
+    background: #020617;
+    color: white;
+    font-size: 14px;
+    outline: none;
+}
+
+.card input::placeholder {
+    color: #64748b;
+}
+
+.card input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99,102,241,0.4);
+}
+
+/* ================= BUTTON ================= */
+button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 14px;
+    border-radius: 14px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 35px rgba(99,102,241,0.5);
+}
+
+/* ================= ERROR ================= */
+.error {
+    margin-top: 14px;
+    text-align: center;
+    font-size: 13px;
+    color: #f87171;
+}
+
+/* ================= LOGIN LINK ================= */
+.login-link {
+    margin-top: 22px;
+    text-align: center;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.login-link a {
+    color: #818cf8;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 520px) {
+    .card {
+        width: 92%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+    <div class="card">
+
+        <h2>📝 Create Account</h2>
+        <p class="subtitle">Register to continue UPI Fraud Detection</p>
+
+        <form method="POST">
+
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="text" name="phone" placeholder="Phone Number" required>
+            <input type="text" name="upi" placeholder="UPI ID (example@upi)" required>
+            <input type="password" name="password" placeholder="Password" required autocomplete="off">
+
+            <button type="submit">Create Account</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <p class="login-link">
+            Already have an account?
+            <a href="/login">Login here</a>
+        </p>
+
+    </div>
+</div>
+
+</body>
+</html>

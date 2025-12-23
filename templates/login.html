@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+    <!-- 🔴 REQUIRED for mobile responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>UPI Fraud Detection – Login</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+/* ================= BODY + ANIMATED BACKGROUND ================= */
+body {
+    margin: 0;
+    height: 100vh;
+    background:
+        radial-gradient(circle at top, rgba(99,102,241,0.25), transparent 45%),
+        radial-gradient(circle at bottom, rgba(139,92,246,0.25), transparent 45%),
+        #020617;
+}
+
+
+/* ================= PAGE ================= */
+.page {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+/* ================= LOGIN CARD ================= */
+.login-card {
+    width: 420px;
+    padding: 35px;
+    border-radius: 22px;
+    background: #020617;
+    box-shadow:
+        0 40px 90px rgba(0,0,0,0.6),
+        inset 0 0 0 1px rgba(255,255,255,0.06);
+    color: #e5e7eb;
+    animation: slideFade 0.8s ease forwards;
+    opacity: 0;
+}
+
+/* ================= ANIMATION ================= */
+@keyframes slideFade {
+    from {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ================= HEADER ================= */
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 6px;
+    font-size: 26px;
+}
+
+.login-card p {
+    text-align: center;
+    font-size: 14px;
+    color: #94a3b8;
+    margin-bottom: 26px;
+}
+
+/* ================= FORM ================= */
+.field {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #cbd5f5;
+}
+
+input, select {
+    width: 100%;
+    padding: 13px;
+    border-radius: 12px;
+    border: 1px solid #020617;
+    background: #020617;
+    color: white;
+    font-size: 14px;
+    outline: none;
+}
+
+input::placeholder {
+    color: #64748b;
+}
+
+input:focus, select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99,102,241,0.4);
+}
+
+/* ================= BUTTON ================= */
+button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 14px;
+    border-radius: 14px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 35px rgba(99,102,241,0.5);
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+    .page {
+        justify-content: center;
+        padding-right: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="login-card">
+
+        <h2>🔐 Login</h2>
+        <p>Select login type</p>
+
+        <form method="POST" action="/login">
+
+            <div class="field">
+                <label>UPI ID</label>
+                <input type="text" name="username" placeholder="example@upi" required>
+            </div>
+
+            <div class="field">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter password" required>
+            </div>
+
+            <div class="field">
+                <label>Login As</label>
+                <select name="role">
+                    <option value="user">Normal User</option>
+                    <option value="merchant">Merchant</option>
+                </select>
+            </div>
+
+            <button type="submit">Login</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

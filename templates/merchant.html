@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Merchant Dashboard</title>
+    
+    <!-- 🔴 REQUIRED for mobile responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+
+</head>
+<body>
+
+<div class="app">
+    <div class="card">
+        <h1>🏪 Merchant Dashboard</h1>
+        <p class="subtitle">Real-time Fraud Risk Monitoring</p>
+
+        <!-- SUMMARY STATS -->
+        <div class="stats">
+            <div class="stat-box">
+                <h3>{{ total_txns }}</h3>
+                <p>Total Transactions</p>
+            </div>
+            <div class="stat-box fraud">
+                <h3>{{ frauds }}</h3>
+                <p>Frauds Detected</p>
+            </div>
+            <div class="stat-box">
+                <h3>{{ avg_risk }}%</h3>
+                <p>Avg Risk Score</p>
+            </div>
+        </div>
+
+        <!-- TOP RISKY TRANSACTIONS -->
+        <h3 style="margin-top:25px">🚨 Top 5 High-Risk Transactions</h3>
+
+        <table class="risk-table">
+            <tr>
+                <th>Amount</th>
+                <th>Hour</th>
+                <th>Risk %</th>
+                <th>Status</th>
+            </tr>
+
+            {% for row in top_risky %}
+            <tr>
+                <td>₹ {{ row.amount }}</td>
+                <td>{{ row.hour }}</td>
+                <td>{{ row.fraud_probability }}%</td>
+                <td>
+                    {% if row.fraud_prediction == 1 %}
+                        <span class="badge fraud">FRAUD</span>
+                    {% else %}
+                        <span class="badge safe">SAFE</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+<h3 style="margin-top:30px">🧾 Last 10 Transaction Checks (Audit Log)</h3>
+
+{% if audit_logs %}
+<table class="risk-table">
+    <tr>
+        <th>Time</th>
+        <th>Amount</th>
+        <th>Hour</th>
+        <th>Type</th>
+        <th>Risk %</th>
+        <th>Decision</th>
+        <th>Result</th>
+    </tr>
+
+    {% for log in audit_logs %}
+    <tr>
+        <td>{{ log.time }}</td>
+        <td>₹ {{ log.amount }}</td>
+        <td>{{ log.hour }}</td>
+        <td>{{ log.type }}</td>
+        <td>{{ log.risk }}</td>
+        <td>{{ log.decision }}</td>
+        <td>
+            {% if "FRAUD" in log.result %}
+                <span class="badge fraud">FRAUD</span>
+            {% else %}
+                <span class="badge safe">SAFE</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No transactions checked yet.</p>
+{% endif %}
+
+        <a href="/check" class="link-btn">➕ Check New Transaction</a>
+    </div>
+</div>
+
+</body>
+</html>
+
